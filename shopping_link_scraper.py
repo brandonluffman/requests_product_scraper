@@ -40,13 +40,7 @@ def parse_results(response):
     output = {}
     link_count = 0
 
-    # for result in results:
-    #     if link_count < 5:
-    #         shopping_link = 'https://www.google.com' + result.find(css_identifier_link, first=True).attrs['href']
-    #         compare = result.find(css_identifier_text, first=True).text
-    #         
-    #         output[f'Link #{link_count}'] = shopping_link, int(compare)
-    #         link_count += 1
+    ### For Loop Below loops through queries to find Shopping Link and Integer Representing Amounnt of Stores that are linked to that product ###
 
     for product_result in product_results:
         product_link = 'https://www.google.com' + product_result.find(css_identifier_link, first=True).attrs['href']
