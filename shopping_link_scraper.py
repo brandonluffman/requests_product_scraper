@@ -51,7 +51,8 @@ def parse_results(response):
                 product_compare = product_compare[:-1]
 
             if link_count < 1:
-                output[f'Link #{link_count}'] = product_link, int(product_compare)
+                output[f'Data'] = product_link 
+                output['Count'] = int(product_compare)
                 link_count += 1
 
     return output
@@ -65,7 +66,7 @@ queries = ['airpods', 'sony wh-1000xm5', 'bose quietcomfort 45']
 
 for quer in queries:
     searches = {
-        f'{quer.title()} Links' : google_search(quer)
+        quer.title() : google_search(quer)
     }
     print(quer)
     print(searches)
