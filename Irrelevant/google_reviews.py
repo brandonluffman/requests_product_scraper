@@ -33,6 +33,6 @@ for el in response.xpath("//body/div[@id='AGcbBb']/div[@id='sg-product__pdp-cont
 #     f.write(json_object)
 
 
-# print(results)
+print(results)
 
 driver.quit()
