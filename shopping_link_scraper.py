@@ -22,9 +22,6 @@ def get_source(url):
     except requests.exceptions.RequestException as e:
         print(e)
 
-# https://www.google.com/webhp?tbm=shop
-# https://shopping.google.com/?nord=1
-# https://shopping.google.com/search?q=
 def get_results(query):
     
     query = urllib.parse.quote_plus(query)
@@ -34,30 +31,34 @@ def get_results(query):
 
 def parse_results(response):
     
-    css_identifier_result = ".sh-pr__product-results-grid"
-    css_identifier_title = "h2"
-    css_identifier_link = "a"
-    css_identifier_text = "sh-t__title"
+    css_identifier_results = ".i0X6df"
+    css_identifier_link = "span a"
+    css_identifier_test_2 = ".Ldx8hd a span"
 
+    product_results = response.html.find(css_identifier_results)
 
-    results = response.html.find(css_identifier_result)
-    
     output = {}
     link_count = 0
 
-
     # for result in results:
-    #     if link_count < len(queries):
-    #     # link_count += 1
-    #         output[f'Link #{link_count}'] = result.find(css_identifier_link, first=True).attrs['href'], result.find(css_identifier_title, first=True).text
+    #     if link_count < 5:
+    #         shopping_link = 'https://www.google.com' + result.find(css_identifier_link, first=True).attrs['href']
+    #         compare = result.find(css_identifier_text, first=True).text
+    #         
+    #         output[f'Link #{link_count}'] = shopping_link, int(compare)
     #         link_count += 1
-    for result in results:
-        if link_count < 1:
-        # link_count += 1
-            link = 'https://www.google.com/' + result.find(css_identifier_link, first=True).attrs['href']
-            output[f'Link #{link_count}'] = link, result.find(css_identifier_link, first=True).text
-            link_count += 1
 
+    for product_result in product_results:
+        product_link = 'https://www.google.com' + product_result.find(css_identifier_link, first=True).attrs['href']
+        product_compare = product_result.find(css_identifier_test_2, first=True)
+        if product_compare:
+            product_compare = product_compare.text
+            if product_compare.endswith('+'):
+                product_compare = product_compare[:-1]
+
+            if link_count < 1:
+                output[f'Link #{link_count}'] = product_link, int(product_compare)
+                link_count += 1
 
     return output
 
@@ -66,14 +67,11 @@ def google_search(query):
     response = get_results(query)
     return parse_results(response)
 
-# query = input("What would you like to get the links for? \n")
-
 queries = ['airpods', 'sony wh-1000xm5', 'bose quietcomfort 45']
-
 
 for quer in queries:
     searches = {
-        'Product Links' : google_search(quer)
+        f'{quer.title()} Links' : google_search(quer)
     }
     print(quer)
     print(searches)
