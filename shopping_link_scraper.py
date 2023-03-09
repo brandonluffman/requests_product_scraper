@@ -53,27 +53,30 @@ def parse_results(response):
 def google_search(query):
     response = get_results(query)
     return parse_results(response)
-    
+
+
 queries = ['jabra elite 75t', 'sony wh-1000xm5', 'bose quietcomfort 45']
 
+def card_per_product(products): 
+    final_dict = {}   
+    for product in products:
+        searches = {
+            f'{product.title()}' : google_search(product)
+        }
+        
+        max = 0
+        final_card = {}
+        row_data = searches.values()
+        for item in row_data:
+            cards = item.values()
+            for item in cards:
+                count = item['Count']
+                if count > max:
+                    max = count
+                    final_card['Data'] = item['Data']
+        final_card['Count'] = max
+        final_dict[product] = final_card
+    return final_dict
 
-for quer in queries:
-    searches = {
-        f'{quer.title()}' : google_search(quer)
-    }
-    
-    max = 0
-    final_card = {}
-    row_data = searches.values()
-    for item in row_data:
-        cards = item.values()
-        for item in cards:
-            count = item['Count']
-            if count > max:
-                max = count
-                final_card['Data'] = item['Data']
-    final_card['Count'] = max
-            
-    print(f"Final Card: {final_card}\n")
-    print(f'Searches: {searches}\n')
+
 
