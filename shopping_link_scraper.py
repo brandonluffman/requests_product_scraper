@@ -74,7 +74,6 @@ for quer in queries:
                 final_card['Data'] = item['Data']
     final_card['Count'] = max
             
-            pushing right now
-
-
+    print(f"Final Card: {final_card}\n")
+    print(f'Searches: {searches}\n')
 
