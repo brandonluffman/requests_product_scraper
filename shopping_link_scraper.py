@@ -71,3 +71,7 @@ for quer in queries:
     print(quer)
     print(searches)
 
+
+
+
+
