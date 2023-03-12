@@ -15,5 +15,7 @@ soup = BeautifulSoup(c.content, 'html.parser')
 z = soup.find('textarea').get_text()
 x = re.findall(regex, z)
 with open("proxies_list.txt", "a") as myfile:
+    proxies = []
     for i in x:
-        print(i, file=myfile)
+        proxies.append(i)
+        print(proxies, file=myfile)
