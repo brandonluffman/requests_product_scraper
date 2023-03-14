@@ -49,6 +49,7 @@ def parse_results(response):
     css_product_description = ".Zh8lCd p .sh-ds__full .sh-ds__full-txt"
     css_product_specs = ".lW5xPd .crbkUb"
     css_product_rating = ".QKs7ff .uYNZm"
+    css_all_reviews_link = ".k0e9E a"
     css_product_reviews = "#-9110982622418926094-full"
     css_product_reviews_title = ".XBANlb .P3O8Ne"
     css_product_reviews_rating = ".nMkOOb div"
@@ -84,8 +85,8 @@ def parse_results(response):
             }
             product_specifications_list.append(specs_object)
 
-
     for result in results:
+        reviews_link = 'https://google.com' + result.find(css_all_reviews_link, first=True).attrs['href']
 
         item = {
             'product_title' : result.find(css_product_title, first=True).text,
@@ -94,9 +95,7 @@ def parse_results(response):
             'review_count' : result.find(css_product_review_count, first=True).text,
             'product_img' : result.find(css_product_img, first=True).attrs['src'],
             'product_specs' : product_specifications_list,
-            # 'product_reviews_title' : result.find(css_product_reviews_title, first=True).text,
-            # 'product_reviews_rating' : result.find(css_product_reviews_rating, first=True).attrs['aria-label'],
-            # 'product_reviews' : result.find(css_product_reviews, first=True),
+            'all_reviews_link': reviews_link,
             'product_purchasing' : purchase_links
         }
 
