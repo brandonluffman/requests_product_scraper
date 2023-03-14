@@ -1,12 +1,20 @@
 import requests, json
 from parsel import Selector
 import time
+import random
+from proxies import proxyList
+from user_agents import user_agent_list
+
+chosen_proxy = random.choice(proxyList)
+proxy = {'http' : chosen_proxy}
+user_agent = random.choice(user_agent_list)
+headers = {'User-Agent': user_agent}
 
 def get_reviews_results(url, headers):
     data = []
 
     while True:
-        html = requests.get(url, headers=headers)
+        html = requests.get(url, headers=headers, proxies=proxy)
         time.sleep(1)
         selector = Selector(html.text)
         i = 0
@@ -40,9 +48,6 @@ def get_reviews_results(url, headers):
 
 def main():
     # https://docs.python-requests.org/en/master/user/quickstart/#custom-headers
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36'
-    }
 
     URL = 'https://www.google.com/shopping/product/14019378181107046593/reviews?hl=en&gl=us'
 

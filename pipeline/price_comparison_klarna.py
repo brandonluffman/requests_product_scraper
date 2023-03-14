@@ -4,22 +4,19 @@ import pandas as pd
 from requests_html import HTML
 from requests_html import HTMLSession
 import time
+import random
+from proxies import proxyList
+from user_agents import user_agent_list
 
-headers = {
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36',
-}
+chosen_proxy = random.choice(proxyList)
+proxy = {'http' : chosen_proxy}
+user_agent = random.choice(user_agent_list)
+headers = {'User-Agent': user_agent}
 
 def get_source(url):
-    """Return the source code for the provided URL. 
-    Args: 
-        url (string): URL of the page to scrape.
-    Returns:
-        response (object): HTTP response object from requests_html. 
-    """
-
     try:
         session = HTMLSession()
-        response = session.get(url, headers=headers)
+        response = session.get(url, headers=headers, proxies=proxy)
         return response
     except requests.exceptions.RequestException as e:
         print(e)
