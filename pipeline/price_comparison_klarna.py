@@ -49,9 +49,9 @@ def google_search(query):
 
 queries = ['jabra elite 75t', 'sony wh-1000xm5', 'bose quietcomfort 45']
 
-results = []
+results = {}
 for query in queries:
-    results.append(google_search(query))
+    results[query] = google_search(query)
 
 print(results)
 

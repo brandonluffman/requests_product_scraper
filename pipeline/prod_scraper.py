@@ -58,7 +58,7 @@ def parse_results(response):
     specifications = response.html.find(css_product_specifications)
 
   
-    output = []
+    output = {}
     purchase_links = []
     for purchase in purchasing:
         link = (purchase.find(product_purchase, first=True).text).replace('Opens in a new window', '')
@@ -77,9 +77,8 @@ def parse_results(response):
 
     for result in results:
         reviews_link = 'https://google.com' + result.find(css_all_reviews_link, first=True).attrs['href']
-
-        item = {
-            'product_title' : result.find(css_product_title, first=True).text,
+        product_title = result.find(css_product_title, first=True).text
+        output[product_title] = {
             'product_description' : result.find(css_product_description, first=True).text,
             'product_rating' : result.find(css_product_rating, first=True).text,
             'review_count' : result.find(css_product_review_count, first=True).text,
@@ -87,9 +86,7 @@ def parse_results(response):
             'product_specs' : product_specifications_list,
             'all_reviews_link': reviews_link,
             'product_purchasing' : purchase_links
-        }
-
-        output.append(item)  
+        } 
 
     return output
 
@@ -103,5 +100,5 @@ urls = ['https://www.google.com/shopping/product/7414362887907499803?hl=en&psb=1
 
 for url in urls:    
     results = google_search(url)
-    print(results)
+    print(results, '\n')
 
